@@ -1188,6 +1188,7 @@ To summarize, we have installed RabbitMQ Operator, created the necessary RBAC, c
   ```bash
   kubectl get rabbitmqclusters
   ```
+  __Note:__ In future releases, creation of services instances manually will not be required, Services Toolkit will create the service instances on-demand (dynamic provisioning) based on the intent declared by the workloads.
 
 ### Step3: Bind/claim the service instance 
 - We can now bind the app workload to the service instance, by providing the Application Workload a reference to the Service Instance via the `--service-ref` flag on tanzu CLI or by declaring it in `workload.yaml`.
@@ -1199,7 +1200,7 @@ To summarize, we have installed RabbitMQ Operator, created the necessary RBAC, c
     NAME                        KIND             SERVICE TYPE  AGE  SERVICE REF
     example-rabbitmq-cluster-1  RabbitmqCluster  rabbitmq      50s  rabbitmq.com/v1beta1:RabbitmqCluster:example-rabbitmq-cluster-1:default
   ```
-  __Note:__ In future releases, creation of services instances manually will not be required, Services Toolkit will create the service instances on-demand (dynamic provisioning) based on the intent declared by the workloads. 
+
 - Now we can use the SERVICE REF from the above output to update the application workload using the following command
   
   ```bash
