@@ -1216,14 +1216,10 @@ To summarize, we have installed RabbitMQ Operator, created the necessary RBAC, c
 
 ### <a id='services-journey-use-case-2'></a> **Usecase2: Binding an application to a pre-provisioned service instance running in a different namespace on the same Kubernetes cluster (GA).**
 
-The first usecase demonstrates the binding of a sample application workload to a RabbitMQ Cluster
-running in the same namespace. Here we will look at binding to an application workload running in a different namespace.
+The first usecase demonstrates the binding of a sample application workload to a service instance that is running in the same namespace. Here we will look at binding to a service instance that is running in a different namespace. This is likely to be a common scenario as it allows for separation of concerns between those users working with application workloads, and those who are responsible for service instances.
 
-### Step1: Deploy a workload app
-- Same as Step1 in Usecase1.
-
-### Step2: Create a service instance
-- This step is very similar to the first usecase, here we create the service instance in a different namespace (Ex: `service-instances` namespace)
+### Step1: Create a service instance in the service-instances namespace
+- This step is very similar to the first usecase, but here we create the service instance in a different namespace (e.g. the `service-instances` namespace)
   ```yaml
   # example-rabbitmq-cluster-service-instance.yaml
   ---
@@ -1237,19 +1233,18 @@ running in the same namespace. Here we will look at binding to an application wo
   ```bash
   kubectl -n service-instances apply -f example-rabbitmq-cluster-service-instance.yaml
   ```
-### Step3: Bind/claim the service instance 
-- Let’s recap where we’re at - we now have an Application Workload running in our developer namespace and a RabbitmqCluster Service Instance running in the service-instnaces namespace, but they don’t currently know anything about each other.
+### Step2: Bind/claim the service instance 
+- Let’s recap where we’re at - we now have an Application Workload running in our developer namespace and a RabbitmqCluster Service Instance running in the `service-instnaces` namespace, but they don’t currently know anything about each other.
 - Let’s now see how we can bind the two together such that our application is able to make use of the RabbitMQ cluster.
 - This can be done by passing our Application Workload a reference to the Service Instance via the `--service-ref` flag.
 - In order to obtain a service reference in the correct format, we can run the following command:
   ```bash
   $ tanzu service instances list --all-namespaces -owide
-
-
     Warning: This is an ALPHA command and may change without notice.
 
-    NAMESPACE          NAME                        KIND             SERVICE TYPE  AGE    SERVICE REF
-    service-instances  example-rabbitmq-cluster-1  RabbitmqCluster  rabbitmq      7m52s  rabbitmq.com/v1beta1:RabbitmqCluster:example-rabbitmq-cluster-1:service-instances
+    NAMESPACE          NAME                        KIND             SERVICE TYPE  AGE  SERVICE REF
+    default            example-rabbitmq-cluster-1  RabbitmqCluster  rabbitmq      10m  rabbitmq.com/v1beta1:RabbitmqCluster:example-rabbitmq-cluster-1:default
+    service-instances  example-rabbitmq-cluster-1  RabbitmqCluster  rabbitmq      36s  rabbitmq.com/v1beta1:RabbitmqCluster:example-rabbitmq-cluster-1:service-instances
   ```
 - It’s important to note here that the Service Instance is in a different namespace to the one our Application Workload is running in.
 - By default, it is not possible to bind an Application Workload to a Service Instance that resides in a different namespace as this would break tenancy of the Kubernetes namespace model.
