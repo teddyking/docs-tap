@@ -1029,11 +1029,11 @@ time worrying about the provision, configuration, and operations of the backing 
 depend on.
 
 This experience is made possible in Tanzu Application Platform by using the Services Toolkit
-component. Below are the usecases that are unlocked by Services Toolkit on TAP. Those marked with GA are Generally Available in version 0.5.0.
+component. Below are the usecases that are unlocked by Services Toolkit on TAP. Those marked with GA are Generally Available (GA) in version 0.5.0.
 
 ### Usecases unlocked by Services Toolkit on TAP
 
-1. Usecase1 -  Binding an application to a pre-provisioned service instance running in the same namespace (GA).
+1. Usecase1 - Binding an application to a pre-provisioned service instance running in the same namespace (GA).
 2. Usecase2 - Binding an application to a pre-provisioned service instance running in a different namespace on the same Kubernetes cluster (GA).
 3. Usecase3 - Binding an application to a service instance running on a different k8s cluster (Beta).
 4. Usecase4 - Binding an application to a service running outside K8s (e.g. external Azure DB) (Beta).
